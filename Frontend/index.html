@@ -9,5 +9,25 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // stops flashes
+
+      (function () {
+        try {
+          const theme = localStorage.getItem("theme");
+          if (
+            theme === "true" ||
+            (!theme &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches)
+          ) {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+        } catch (e) {
+          console.error("Error applying theme:", e);
+        }
+      })();
+    </script>
   </body>
 </html>

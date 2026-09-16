@@ -1,13 +1,23 @@
 const pool = require("../db");
 
 async function postAllUserTask(req, res) {
+  console.log("post running");
   try {
-    const { user_id, title, description, priority, status, due_date } =
+    const { title, description, priority, status, due_date, created_at } =
       req.body;
     const [result] = await pool.query(
-      `INSERT INTO tasktable (title,description,priority,status,due_date,user_id) VALUES(?,?,?,?,?,?)`,
-      [title, description, priority, status, due_date, req.user.userId],
+      `INSERT INTO tasktable (title,description,priority,status,due_date,user_id,created_at) VALUES(?,?,?,?,?,?,?)`,
+      [
+        title,
+        description,
+        priority,
+        status,
+        due_date,
+        req.user.userId,
+        created_at,
+      ],
     );
+
     return res.json({
       message: "tasks added sucessfully",
       result: result,
@@ -18,12 +28,13 @@ async function postAllUserTask(req, res) {
         priority: priority,
         status: status,
         due_date: due_date,
+        created_at: created_at,
       },
     });
   } catch (error) {
-    console.error(error);
     return res.json({
       message: "unable to add tasks",
+      error: error.message,
     });
   }
 }
@@ -31,7 +42,7 @@ async function postAllUserTask(req, res) {
 async function getAllUserTask(req, res) {
   try {
     const [tasks] = await pool.query(
-      "SELECT * FROM tasktable WHERE user_id = ? ORDER BY id DESC",
+      "SELECT  id, user_id, title, description, priority, status, DATE_FORMAT(due_date, '%Y-%m-%d') as due_date,DATE_FORMAT(created_at, '%Y-%m-%d') as created_at,completed_at FROM tasktable WHERE user_id = ? ORDER BY id DESC",
       [req.user.userId],
     );
     return res.json({
@@ -40,9 +51,8 @@ async function getAllUserTask(req, res) {
       tasks: tasks,
     });
   } catch (error) {
-    console.log(error);
     return res.json({
-      error: error,
+      error: error.message,
     });
   }
 }
@@ -57,9 +67,8 @@ async function getTaskByTaskId(req, res) {
       task: specificTask,
     });
   } catch (error) {
-    console.log(error);
     res.json({
-      error: error,
+      error: error.message,
     });
   }
 }
@@ -81,22 +90,24 @@ async function deleteTaskByTaskId(req, res) {
   } catch (error) {
     console.log(error);
     return res.json({
-      error: error,
+      error: error.message,
     });
   }
 }
 
 async function editTaskByTaskId(req, res) {
-  const { title, status, description, priority, due_date } = req.body;
+  const { title, status, description, priority, due_date, completed_at } =
+    req.body;
   try {
     const [result] = await pool.query(
-      "UPDATE tasktable SET title = ? , status = ?,priority = ?,due_date = ?,description = ? WHERE id = ? AND user_id = ?",
+      "UPDATE tasktable SET title = ? ,description = ?,priority = ?,status = ?,due_date = ?,completed_at = ? WHERE id = ? AND user_id = ?",
       [
         title,
-        status,
         description,
         priority,
+        status,
         due_date,
+        completed_at,
         req.params.id,
         req.user.userId,
       ],
@@ -111,9 +122,8 @@ async function editTaskByTaskId(req, res) {
       message: "task not found",
     });
   } catch (error) {
-    console.log(error);
     return res.json({
-      error: error,
+      error: error.message,
     });
   }
 }

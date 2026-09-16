@@ -9,7 +9,6 @@ const {
   editTaskByTaskId,
 } = require("../controllers/taskControllers");
 
-
 router.post("/", auth, postAllUserTask);
 router.get("/", auth, getAllUserTask);
 router.get("/:id", auth, getTaskByTaskId);
