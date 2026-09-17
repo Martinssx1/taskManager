@@ -193,7 +193,7 @@ async function emailPullVerify(req, res) {
   if (!token) return;
   try {
     const decoded = jwttoken.verify(token, process.env.JWT_SECRET_KEY_EMAIL);
-    console.log("decoded", decoded);
+   
     ///some touching?
     const [result] = await pool.query(
       ` UPDATE taskappusers 

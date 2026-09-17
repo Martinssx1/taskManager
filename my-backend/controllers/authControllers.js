@@ -4,7 +4,7 @@ const pool = require("../db");
 const bcrypt = require("bcrypt");
 const jwttoken = require("jsonwebtoken");
 const { sendEmailVerificationLink } = require("./emailVerificationController");
-//might remove
+
 async function getSignUp(req, res) {
   try {
     const [logincreditials] = await pool.query("SELECT * FROM taskappusers");
@@ -39,7 +39,7 @@ async function sendEmailVerification(email) {
       process.env.JWT_SECRET_KEY_EMAIL,
       { expiresIn: "5m" },
     );
-    //hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+   
     const verificationLink = ` ${process.env.VITE_FRONTEND_URL}/verify-email/${emailVerificationToken}`;
     await sendEmailVerificationLink(email, verificationLink);
   } catch (err) {

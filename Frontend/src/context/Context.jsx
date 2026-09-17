@@ -34,7 +34,7 @@ export default function ContextRoot({ children }) {
       }
       setIsVerifyLoading(false);
       setVerificationEmailSuccess(true);
-      console.log("Verification email resent:", data);
+     
     } catch (error) {
       console.error("Error resending verification email:", error);
     }
@@ -61,9 +61,9 @@ export default function ContextRoot({ children }) {
     created_at,
     completed_at,
   ) {
-    console.log("token:", token);
+   
     if (!token) return;
-    console.log("saveTask ran ");
+  
 
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/tasks`, {
@@ -88,7 +88,7 @@ export default function ContextRoot({ children }) {
         throw new Error(data.message || "Failed to save task.");
       }
 
-      console.log("data from savetask", data);
+   
       return data.task;
     } catch (error) {
       console.error("Error saving task:", error);
@@ -131,7 +131,7 @@ export default function ContextRoot({ children }) {
       }
       const data = await response.json();
 
-      console.log("edited task:", data);
+      
       return data;
     } catch (error) {
       console.error("Error editing task:", error);

@@ -60,9 +60,7 @@ export default function RegisterPage() {
 
       const data = await res.json();
       if (!res.ok) {
-        // throw new Error(`HTTP error! status: ${res.status}`);
-        console.log("error frontend", data);
-        return;
+        throw new Error(`HTTP error! status: ${res.status}`);
       }
       if (data.result.affectedRows > 0) {
         navigate("/signup-success");
