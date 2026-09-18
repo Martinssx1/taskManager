@@ -85,7 +85,6 @@ async function postSignUp(req, res) {
 }
 
 async function postLogin(req, res) {
-  console.log("postLogin running");
   try {
     const { email, password } = req.body;
     const [user] = await pool.query(
@@ -129,7 +128,6 @@ async function postLogin(req, res) {
       token: token,
     });
   } catch (error) {
-    console.error("Error during login:", error);
     return res.status(500).json({
       error: error.message || "Internal server error",
       message: "Unexpected error occurred during login",
