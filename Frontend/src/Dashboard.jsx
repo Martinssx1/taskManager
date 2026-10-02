@@ -128,7 +128,7 @@ export default function Dashboard({ onToggleStatus }) {
                   Hi, {name?.split(" ")[0]}
                 </span>
                 <Themebutton />
-                {/* hereeeeeeeeeeeeeeeeeeee */}
+
                 <button
                   onClick={onLogOutCancel}
                   className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 px-3 py-1.5 text-sm font-medium text-stone-600 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800"
@@ -238,7 +238,6 @@ export default function Dashboard({ onToggleStatus }) {
                     task?.due_date,
                     task.created_at,
                     task.completed_at,
-                    token,
                   );
 
                   if (!createTask) {
@@ -269,7 +268,6 @@ export default function Dashboard({ onToggleStatus }) {
                     task?.status,
                     task?.due_date,
                     mysqlDateTime,
-                    token,
                   );
                   if (editedTask?.updated?.affectedRows === 1) {
                     setUpdatedTasks((prev) =>

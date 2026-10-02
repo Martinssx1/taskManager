@@ -1,7 +1,6 @@
 const pool = require("../db");
 
 async function postAllUserTask(req, res) {
-  console.log("post running");
   try {
     const { title, description, priority, status, due_date, created_at } =
       req.body;

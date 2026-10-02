@@ -11,7 +11,6 @@ const authRoute = require("./routes/authRoutes");
 const meRoute = require("./routes/meRoutes");
 const emailRoutes = require("./routes/emailverifyRoutes");
 
-// middleware (lets us read JSON)
 app.use(express.json());
 
 app.use("/tasks", taskRoute);

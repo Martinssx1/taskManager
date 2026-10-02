@@ -211,8 +211,9 @@ export function TaskFormModal({ initialTask, onCancel, onSave, onEdit }) {
 
   const [completedAt] = useState(initialTask?.completed_at || null);
   const [createdAt] = useState(new Date().toISOString().split("T")[0]);
+  const [loading, setLoading] = useState(false);
 
-  function handleSaveEdit(e) {
+  async function handleSaveEdit(e) {
     e.preventDefault();
     if (!title.trim()) {
       setError("Give the task a title.");
@@ -222,7 +223,8 @@ export function TaskFormModal({ initialTask, onCancel, onSave, onEdit }) {
       setError("Please select a due date.");
       return;
     }
-    onEdit({
+    setLoading(true);
+    await onEdit({
       id: initialTask.id,
       title: title.trim(),
       description: description.trim(),
@@ -231,9 +233,10 @@ export function TaskFormModal({ initialTask, onCancel, onSave, onEdit }) {
       due_date: due,
       completed_at: completedAt,
     });
+    setLoading(false);
   }
 
-  function handleSaveSubmit(e) {
+  async function handleSaveSubmit(e) {
     e.preventDefault();
     if (!title.trim() || title.trim().length === 0) {
       setError("Give the task a title.");
@@ -253,7 +256,8 @@ export function TaskFormModal({ initialTask, onCancel, onSave, onEdit }) {
       return;
     }
 
-    onSave({
+    setLoading(true);
+    await onSave({
       title: title.trim(),
       description: description.trim(),
       priority: priority,
@@ -262,6 +266,7 @@ export function TaskFormModal({ initialTask, onCancel, onSave, onEdit }) {
       created_at: createdAt,
       completed_at: completedAt,
     });
+    setLoading(false);
   }
 
   return (
@@ -355,9 +360,10 @@ export function TaskFormModal({ initialTask, onCancel, onSave, onEdit }) {
             </button>
             <button
               type="submit"
-              className="rounded-lg bg-teal-800 px-4 py-2 text-sm font-medium text-white hover:bg-teal-900 dark:bg-teal-700 dark:hover:bg-teal-600"
+              disabled={loading}
+              className={`${loading ? "opacity-50 cursor-not-allowed" : ""} rounded-lg bg-teal-800 px-4 py-2 text-sm font-medium text-white hover:bg-teal-900 dark:bg-teal-700 dark:hover:bg-teal-600`}
             >
-              {isEdit ? "Save changes" : "Add task"}
+              {loading ? "Saving..." : isEdit ? "Save changes" : "Add task"}
             </button>
           </div>
         </form>
@@ -426,7 +432,7 @@ export function TaskCard({ task, onEdit, onDelete, onToggleStatus }) {
           </div>
         </div>
 
-        <div className="flex shrink-0 gap-1 opacity-0 transition group-hover:opacity-100">
+        <div className="flex shrink-0 gap-1 opacity-100 transition sm:opacity-0 sm:group-hover:opacity-100">
           <button
             onClick={() => onEdit(task)}
             className="rounded-md p-1.5 text-stone-400 hover:bg-stone-100 hover:text-teal-700 dark:hover:bg-stone-800 dark:hover:text-teal-400"

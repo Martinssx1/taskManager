@@ -178,12 +178,16 @@ This project helped me practice:
 
 ### Login
 
-![Login](./screenshots/login.png)
+![Login](./screenshots/login.PNG)
 
 ### Dashboard
 
-![Dashboard](./screenshots/dashboard.png)
+![Dashboard](./screenshots/dashboard.PNG)
 
 ### Addtasks
 
-![Addtask](./screenshots/Addtask.png)
+![Addtask](./screenshots/Addtask.PNG)
+
+
+
+
